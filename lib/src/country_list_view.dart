@@ -14,6 +14,9 @@ class CountryListView extends StatefulWidget {
   /// An optional [showPhoneCode] argument can be used to show phone code.
   final bool showPhoneCode;
 
+  /// To disable the search TextField (optional).
+  final bool showSearchField;
+
   /// An optional [exclude] argument can be used to exclude(remove) one ore more
   /// country from the countries list. It takes a list of country code(iso2).
   /// Note: Can't provide both [exclude] and [countryFilter]
@@ -40,6 +43,7 @@ class CountryListView extends StatefulWidget {
     this.exclude,
     this.countryFilter,
     this.showPhoneCode = false,
+    this.showSearchField = true,
     this.countryListTheme,
     this.searchAutofocus = false,
     this.showWorldWide = false,
@@ -105,22 +109,24 @@ class _CountryListViewState extends State<CountryListView> {
         const SizedBox(height: 12),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          child: TextField(
-            autofocus: _searchAutofocus,
-            controller: _searchController,
-            decoration: widget.countryListTheme?.inputDecoration ??
-                InputDecoration(
-                  labelText: searchLabel,
-                  hintText: searchLabel,
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color(0xFF8C98A8).withOpacity(0.2),
-                    ),
-                  ),
-                ),
-            onChanged: _filterSearchResults,
-          ),
+          child: widget.showSearchField
+              ? TextField(
+                  autofocus: _searchAutofocus,
+                  controller: _searchController,
+                  decoration: widget.countryListTheme?.inputDecoration ??
+                      InputDecoration(
+                        labelText: searchLabel,
+                        hintText: searchLabel,
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: const Color(0xFF8C98A8).withOpacity(0.2),
+                          ),
+                        ),
+                      ),
+                  onChanged: _filterSearchResults,
+                )
+              : Container(),
         ),
         Expanded(
           child: ListView(
